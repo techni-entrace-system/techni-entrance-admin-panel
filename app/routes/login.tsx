@@ -12,7 +12,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 
-const EmptyPage: React.FC = () => {
+const LoginPage: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -26,6 +26,7 @@ const EmptyPage: React.FC = () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
@@ -52,11 +53,11 @@ const EmptyPage: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center p-4 bg-background">
       <div className="absolute inset-0 overflow-hidden pointer-events-none"></div>
 
-      <Card className="w-full max-w-md relative z-10 border border-border bg-card text-card-foreground">
-        <CardHeader className="space-y-2 text-center pb-8">
+      <Card className="w-full max-w-md relative z-10">
+        <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="p-3 rounded-lg bg-primary">
-              <Lock className="w-6 h-6 text-primary-foreground" />
+              <Lock className="w-6 h-6" />
             </div>
           </div>
           <CardTitle className="text-2xl text-primary">Admin Login</CardTitle>
@@ -68,9 +69,14 @@ const EmptyPage: React.FC = () => {
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             {error && (
-              <Alert variant="destructive" className="bg-destructive/20 border-destructive">
+              <Alert
+                variant="destructive"
+                className="bg-destructive/20 border-destructive"
+              >
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription className="text-destructive-foreground">{error}</AlertDescription>
+                <AlertDescription className="text-destructive-foreground">
+                  {error}
+                </AlertDescription>
               </Alert>
             )}
 
@@ -111,7 +117,7 @@ const EmptyPage: React.FC = () => {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+              className="w-full text-foreground"
             >
               {loading ? "Signing in..." : "Sign in"}
             </Button>
@@ -122,4 +128,4 @@ const EmptyPage: React.FC = () => {
   );
 };
 
-export default EmptyPage;
+export default LoginPage;
