@@ -1,22 +1,42 @@
-FROM node:20-alpine AS development-dependencies-env
-COPY . /app
-WORKDIR /app
-RUN npm ci
+# -----------------------------
+# 1) Builder image
+# -----------------------------
+FROM node:20-alpine AS builder
 
-FROM node:20-alpine AS production-dependencies-env
-COPY ./package.json package-lock.json /app/
-WORKDIR /app
-RUN npm ci --omit=dev
+# Enable pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-FROM node:20-alpine AS build-env
-COPY . /app/
-COPY --from=development-dependencies-env /app/node_modules /app/node_modules
 WORKDIR /app
-RUN npm run build
 
+# Copy package files first (better caching)
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy source code
+COPY . .
+
+# Build React app (ssr: false)
+RUN pnpm build
+
+# -----------------------------
+# 2) Runner image (Node.js)
+# -----------------------------
 FROM node:20-alpine
-COPY ./package.json package-lock.json /app/
-COPY --from=production-dependencies-env /app/node_modules /app/node_modules
-COPY --from=build-env /app/build /app/build
+
+# Enable pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
 WORKDIR /app
-CMD ["npm", "run", "start"]
+
+# Copy only production dependencies
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --prod --frozen-lockfile
+
+# Copy build output and server.js
+COPY --from=builder /app/build/client ./build/client
+COPY server.js ./
+
+EXPOSE 3000
+CMD ["node", "server.js"]

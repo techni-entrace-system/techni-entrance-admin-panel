@@ -3,9 +3,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 export const useStudents = (options: { page?: number; pageSize?: number; query?: string }) => {
   const fetchStudents = async (page: number = 1, pageSize: number = 10, query: string = "") =>
     fetch(
-      `${import.meta.env.VITE_API_URL}/admin/students?page=${page}&page_size=${pageSize}&q=${encodeURIComponent(
-        query
-      )}`,
+      `${
+        import.meta.env.VITE_API_URL || "/api"
+      }/admin/students?page=${page}&page_size=${pageSize}&q=${encodeURIComponent(query)}`,
       {
         credentials: "include",
       }
@@ -20,7 +20,7 @@ export const useStudents = (options: { page?: number; pageSize?: number; query?:
 
 export const useStudent = (id: string) => {
   const fetchStudent = async (id: string) =>
-    fetch(`${import.meta.env.VITE_API_URL}/admin/students/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL || "/api"}/admin/students/${id}`, {
       credentials: "include",
     }).then((res) => res.json());
 
@@ -34,7 +34,7 @@ export const useUpdateStudent = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: any) => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/admin/students/${data.id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "/api"}/admin/students/${data.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export const useDeleteStudent = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/admin/students/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "/api"}/admin/students/${id}`, {
         method: "DELETE",
         credentials: "include",
       });

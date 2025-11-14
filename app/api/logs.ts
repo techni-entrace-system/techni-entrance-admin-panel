@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useLogs = (options: { page?: number; pageSize?: number }) => {
   const fetchLogs = async (page: number = 1, pageSize: number = 10) =>
-    fetch(`${import.meta.env.VITE_API_URL}/admin/logs?page=${page}&page_size=${pageSize}`, {
+    fetch(`${import.meta.env.VITE_API_URL || "/api"}/admin/logs?page=${page}&page_size=${pageSize}`, {
       credentials: "include",
     }).then((res) => res.json());
 
@@ -15,7 +15,7 @@ export const useLogs = (options: { page?: number; pageSize?: number }) => {
 
 export const useStudentLogs = (studentId: string, options: { page?: number; pageSize?: number }) => {
   const fetchStudentLogs = async (studentId: string, page: number = 1, pageSize: number = 10) =>
-    fetch(`${import.meta.env.VITE_API_URL}/admin/logs/${studentId}?page=${page}&page_size=${pageSize}`, {
+    fetch(`${import.meta.env.VITE_API_URL || "/api"}/admin/logs/${studentId}?page=${page}&page_size=${pageSize}`, {
       credentials: "include",
     }).then((res) => res.json());
 

@@ -18,7 +18,7 @@ export default function PanelSidebar() {
   const navigate = useNavigate();
 
   const logout = () => {
-    fetch(`${import.meta.env.VITE_API_URL}/logout`, {
+    fetch(`${import.meta.env.VITE_API_URL || "/api"}/logout`, {
       method: "POST",
       credentials: "include",
     }).then(() => {
