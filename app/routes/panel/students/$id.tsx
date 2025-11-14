@@ -21,7 +21,7 @@ import {
 
 function StudentLogs({ studentId }: { studentId: string }) {
   const [page, setPage] = useState(1);
-  const { isLoading, data, error } = useStudentLogs(studentId);
+  const { isLoading, data, error } = useStudentLogs(studentId, { page });
   const logs = useMemo(() => data?.items ?? [], [data]);
 
   return (

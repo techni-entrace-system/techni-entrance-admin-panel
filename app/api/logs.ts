@@ -13,14 +13,14 @@ export const useLogs = (options: { page?: number; pageSize?: number }) => {
   });
 };
 
-export const useStudentLogs = (studentId: string) => {
-  const fetchStudentLogs = async (studentId: string) =>
-    fetch(`${import.meta.env.VITE_API_URL}/admin/logs/${studentId}`, {
+export const useStudentLogs = (studentId: string, options: { page?: number; pageSize?: number }) => {
+  const fetchStudentLogs = async (studentId: string, page: number = 1, pageSize: number = 10) =>
+    fetch(`${import.meta.env.VITE_API_URL}/admin/logs/${studentId}?page=${page}&page_size=${pageSize}`, {
       credentials: "include",
     }).then((res) => res.json());
 
   return useQuery({
-    queryKey: ["studentLogs", studentId],
-    queryFn: () => fetchStudentLogs(studentId),
+    queryKey: ["studentLogs", studentId, options.page, options.pageSize],
+    queryFn: () => fetchStudentLogs(studentId, options.page, options.pageSize),
   });
 };

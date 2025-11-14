@@ -1,24 +1,19 @@
-import React from "react";
-import { Link, Outlet } from "react-router";
-import { Card, CardHeader, CardTitle, CardContent } from "~/components/ui/card";
-import { Button } from "~/components/ui/button";
-import { LogOut, Users } from "lucide-react";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-} from "~/components/ui/sidebar";
+import React, { useEffect } from "react";
+import { Link, Outlet, useNavigate } from "react-router";
+import { SidebarProvider } from "~/components/ui/sidebar";
 import PanelSidebar from "~/components/sidebar";
+import { useIsAdmin } from "~/api/admin";
 
 export default function PanelLayout() {
+  const isAdmin = useIsAdmin();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAdmin) {
+      navigate("/login");
+    }
+  }, [isAdmin]);
+
   return (
     <SidebarProvider>
       <PanelSidebar />

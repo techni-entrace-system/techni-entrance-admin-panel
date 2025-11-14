@@ -1,14 +1,10 @@
 import { AlertCircle, Lock, User } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useIsAdmin } from "~/api/admin";
 import { Alert, AlertDescription } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 
@@ -17,6 +13,14 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const isAdmin = useIsAdmin();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAdmin) {
+      navigate("/");
+    }
+  }, [isAdmin]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,11 +40,7 @@ const LoginPage: React.FC = () => {
         throw new Error(errData.detail || "Login failed");
       }
 
-      const data = await response.json();
-      console.log("Login success:", data);
-
-      // localStorage.setItem("access_token", data.access_token);
-      // localStorage.setItem("token_type", data.token_type);
+      navigate("/");
     } catch (err: any) {
       console.error("Error fetching data:", err);
       setError(err.message || "Failed to connect to the server.");
@@ -69,14 +69,9 @@ const LoginPage: React.FC = () => {
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             {error && (
-              <Alert
-                variant="destructive"
-                className="bg-destructive/20 border-destructive"
-              >
+              <Alert variant="destructive" className="bg-destructive/20 border-destructive">
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription className="text-destructive-foreground">
-                  {error}
-                </AlertDescription>
+                <AlertDescription className="text-destructive-foreground">{error}</AlertDescription>
               </Alert>
             )}
 
@@ -114,11 +109,7 @@ const LoginPage: React.FC = () => {
               </div>
             </div>
 
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full text-foreground"
-            >
+            <Button type="submit" disabled={loading} className="w-full text-foreground">
               {loading ? "Signing in..." : "Sign in"}
             </Button>
           </form>
