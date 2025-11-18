@@ -50,41 +50,33 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-background flex-col gap-4">
       <div className="absolute inset-0 overflow-hidden pointer-events-none"></div>
 
-      <Card className="w-full max-w-md relative z-10">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <div className="p-3 rounded-lg bg-primary">
-              <Lock className="w-6 h-6" />
+      <Card className="w-full max-w-sm relative z-10">
+        <CardHeader className="flex justify-center">
+          <div className="pb-4 pt-2 flex flex-row gap-3 items-center">
+            <img src="/techni.svg" alt="Logo" className="h-10" />
+            <div className="flex-1 font-bold flex flex-col">
+              <div className="text-xl leading-tight">
+                <span className="text-primary">Techni</span> Entrance
+              </div>
+              <div className="text-sm text-muted-foreground">Panel admin'a</div>
             </div>
           </div>
-          <CardTitle className="text-2xl text-primary">Admin Login</CardTitle>
-          <CardDescription className="text-muted-foreground">
-            Enter your credentials to access the admin panel
-          </CardDescription>
         </CardHeader>
-
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
-            {error && (
-              <Alert variant="destructive" className="bg-destructive/20 border-destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription className="text-destructive-foreground">{error}</AlertDescription>
-              </Alert>
-            )}
-
             <div className="space-y-2">
               <Label htmlFor="username" className="text-accent-foreground">
-                Username
+                Nazwa użytkownika
               </Label>
               <div className="relative">
                 <User className="absolute left-3 top-3 w-4 h-4 text-accent" />
                 <Input
                   id="username"
                   type="text"
-                  placeholder="username"
+                  placeholder="nazwa użytkownika"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="pl-10 bg-input border border-border text-foreground placeholder:muted"
@@ -94,7 +86,7 @@ const LoginPage: React.FC = () => {
 
             <div className="space-y-2">
               <Label htmlFor="password" className="text-accent-foreground">
-                Password
+                Hasło
               </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 w-4 h-4 text-accent" />
@@ -109,12 +101,18 @@ const LoginPage: React.FC = () => {
               </div>
             </div>
 
-            <Button type="submit" disabled={loading} className="w-full text-foreground">
-              {loading ? "Signing in..." : "Sign in"}
+            <Button type="submit" disabled={loading} className="w-full text-foreground mt-2">
+              {loading ? "Logowanie..." : "Zaloguj się"}
             </Button>
           </form>
         </CardContent>
       </Card>
+      {error && (
+        <Alert variant="destructive" className="bg-destructive/20 border-destructive max-w-sm">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription className="text-destructive-foreground">{error}</AlertDescription>
+        </Alert>
+      )}
     </div>
   );
 };

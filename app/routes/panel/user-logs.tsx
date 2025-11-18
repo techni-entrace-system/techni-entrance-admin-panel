@@ -25,14 +25,14 @@ export default function UserLogsPage() {
   return (
     <>
       <div className="px-4 pl-6 h-14 flex justify-between items-center mt-1.5 mb-2">
-        <h3 className="text-lg font-bold">User Logs</h3>
+        <h3 className="text-lg font-bold">Logi administratora</h3>
       </div>
       <div className="px-4 flex-1 h-0 overflow-y-auto">
-        {isLoading && <div className="w-full bg-card rounded-md border grid place-items-center p-4">Loading...</div>}
+        {isLoading && <div className="w-full bg-card rounded-md border grid place-items-center p-4">Ładowanie...</div>}
 
         {!!error && (
           <Alert variant="destructive">
-            <AlertTitle>Error</AlertTitle>
+            <AlertTitle>Błąd</AlertTitle>
             <AlertDescription>{String(error)}</AlertDescription>
           </Alert>
         )}
@@ -43,7 +43,9 @@ export default function UserLogsPage() {
               {logs && logs.length > 0 ? (
                 logs.map((l: any, i: number) => <UserLogComponent key={i} log={l} />)
               ) : (
-                <div className="w-full bg-card rounded-md border grid place-items-center p-4">No logs available.</div>
+                <div className="w-full bg-card rounded-md border grid place-items-center p-4">
+                  Brak dostępnych logów.
+                </div>
               )}
             </div>
             {pages > 1 && (

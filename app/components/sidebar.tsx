@@ -12,10 +12,15 @@ import {
 } from "./ui/sidebar";
 import { Button } from "./ui/button";
 import { Users, LogOut, KeyRound, ClipboardClock } from "lucide-react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate, useNavigation } from "react-router";
 
 export default function PanelSidebar() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isActive = (href: string) => {
+    return location.pathname.startsWith(href) ? "bg-secondary/70 hover:bg-secondary" : undefined;
+  };
 
   const logout = () => {
     fetch(`${import.meta.env.VITE_API_URL || "/api"}/logout`, {
@@ -28,35 +33,40 @@ export default function PanelSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="pb-0">
-        <div className="text-lg font-bold p-3 text-center border rounded-md">Admin Panel</div>
+      <SidebarHeader className="pb-2 flex-row px-4 pt-4 gap-3 items-center">
+        <img src="/techni.svg" alt="Logo" className="h-9" />
+        <div className="flex-1 font-bold flex flex-col">
+          <div className="text-lg leading-tight">
+            <span className="text-primary">Techni</span> Entrance
+          </div>
+          <div className="text-xs text-muted-foreground">Panel admin'a</div>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Manage</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/students">
+                  <a href="/students" className={isActive("/students")}>
                     <Users />
-                    <span>Students</span>
+                    <span>Uczniowie</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/logs">
+                  <a href="/logs" className={isActive("/logs")}>
                     <ClipboardClock />
-                    <span>Logs</span>
+                    <span>Rejestr wyjść</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/user-logs">
+                  <a href="/user-logs" className={isActive("/user-logs")}>
                     <KeyRound />
-                    <span>Admin Logs</span>
+                    <span>Logi administratora</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -67,7 +77,7 @@ export default function PanelSidebar() {
       <SidebarFooter>
         <Button variant="destructive" size="sm" onClick={logout} className="w-full">
           <LogOut />
-          Logout
+          <span>Wyloguj się</span>
         </Button>
       </SidebarFooter>
     </Sidebar>

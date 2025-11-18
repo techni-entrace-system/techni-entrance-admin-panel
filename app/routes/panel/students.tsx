@@ -36,9 +36,9 @@ export default function StudentsPage() {
   return (
     <>
       <div className="px-4 pl-6 h-14 flex justify-between items-center mt-1.5 mb-2">
-        <h3 className="text-lg font-bold">Students</h3>
+        <h3 className="text-lg font-bold">Uczniowie</h3>
         <InputGroup className="w-64">
-          <InputGroupInput placeholder="Search..." value={query} onChange={(e) => setQuery(e.target.value)} />
+          <InputGroupInput placeholder="Szukaj..." value={query} onChange={(e) => setQuery(e.target.value)} />
           <InputGroupAddon>
             <Search />
           </InputGroupAddon>
@@ -47,13 +47,13 @@ export default function StudentsPage() {
       <div className="px-4 flex-1 h-0 overflow-y-auto flex flex-col pb-8">
         {isLoading && (
           <div className="w-full bg-card rounded-md border grid place-items-center p-4 h-fit lg:col-span-2 xl:col-span-3">
-            Loading...
+            Ładowanie...
           </div>
         )}
 
         {!!error && (
           <Alert variant="destructive" className="mb-4">
-            <AlertTitle>Error loading students</AlertTitle>
+            <AlertTitle>Błąd podczas ładowania uczniów</AlertTitle>
             <AlertDescription>{String(error)}</AlertDescription>
           </Alert>
         )}
@@ -66,7 +66,7 @@ export default function StudentsPage() {
                 students.map((s: any, i: number) => <StudentComponent key={i} student={s} />)
               ) : (
                 <div className="w-full bg-card rounded-md border grid place-items-center p-4 h-fit lg:col-span-2 xl:col-span-3">
-                  No students found.
+                  Nie znaleziono uczniów.
                 </div>
               )}
             </div>

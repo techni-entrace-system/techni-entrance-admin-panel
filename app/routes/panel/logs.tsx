@@ -23,10 +23,10 @@ export default function LogsPage() {
   return (
     <>
       <div className="px-4 pl-6 h-14 flex justify-between items-center mt-1.5 mb-2">
-        <h3 className="text-lg font-bold">Logs</h3>
+        <h3 className="text-lg font-bold">Rejestr wyjść</h3>
       </div>
-      <div className="px-4 flex-1 h-0 overflow-y-auto">
-        {isLoading && <div className="w-full bg-card rounded-md border grid place-items-center p-4">Loading...</div>}
+      <div className="px-4 flex-1 h-0 overflow-y-auto pb-8 flex flex-col space-y-4">
+        {isLoading && <div className="w-full bg-card rounded-md border grid place-items-center p-4">Ładowanie...</div>}
 
         {!!error && (
           <Alert variant="destructive">
@@ -37,11 +37,13 @@ export default function LogsPage() {
 
         {!isLoading && !error && (
           <>
-            <div className="grid gap-2 flex-1">
+            <div className="grid gap-2 flex-1 auto-rows-min">
               {logs && logs.length > 0 ? (
                 logs.map((l: any, i: number) => <LogComponent key={i} log={l} />)
               ) : (
-                <div className="w-full bg-card rounded-md border grid place-items-center p-4">No logs available.</div>
+                <div className="w-full bg-card rounded-md border grid place-items-center p-4">
+                  Brak dostępnych wpisów.
+                </div>
               )}
             </div>
             {pages > 1 && (
