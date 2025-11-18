@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import { Alert, AlertTitle, AlertDescription } from "~/components/ui/alert";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/components/ui/input-group";
-import { Ellipsis, Search } from "lucide-react";
+import { Ellipsis, Search, Users } from "lucide-react";
 import { useStudents } from "~/api/students";
 import {
   Pagination,
@@ -15,6 +15,7 @@ import {
   PaginationNext,
 } from "~/components/ui/pagination";
 import StudentComponent from "~/components/student";
+import { SidebarTrigger } from "~/components/ui/sidebar";
 
 export default function StudentsPage() {
   const [page, setPage] = useState(1);
@@ -33,11 +34,24 @@ export default function StudentsPage() {
     };
   }, [query]);
 
+  useEffect(() => {
+    const el = document.querySelector(".overflow-y-auto") as HTMLElement | null;
+    if (el) {
+      el.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [page]);
+
   return (
     <>
-      <div className="px-4 pl-6 h-14 flex justify-between items-center mt-1.5 mb-2">
-        <h3 className="text-lg font-bold">Uczniowie</h3>
-        <InputGroup className="w-64">
+      <div className="px-4 md:pl-6 md:h-14 flex justify-between items-center mt-1.5 mb-4 md:mb-2 flex-wrap gap-4">
+        <div className="flex gap-2 items-center mt-2 md:mt-0">
+          <SidebarTrigger className="md:hidden" />
+          <Users className="hidden md:block" />
+          <h3 className="text-lg font-bold">Uczniowie</h3>
+        </div>
+        <InputGroup className="w-full md:w-64">
           <InputGroupInput placeholder="Szukaj..." value={query} onChange={(e) => setQuery(e.target.value)} />
           <InputGroupAddon>
             <Search />

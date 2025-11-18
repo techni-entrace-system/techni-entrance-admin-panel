@@ -15,6 +15,8 @@ import {
 } from "~/components/ui/pagination";
 import { useUserLogs } from "~/api/user-logs";
 import UserLogComponent from "~/components/user-log";
+import { KeyRound } from "lucide-react";
+import { SidebarTrigger } from "~/components/ui/sidebar";
 
 export default function UserLogsPage() {
   const [page, setPage] = useState(1);
@@ -22,10 +24,23 @@ export default function UserLogsPage() {
   const pages = useMemo(() => (data ? Math.ceil(data.total / data.limit) : 0), [data]);
   const logs = useMemo(() => data?.items ?? [], [data]);
 
+  useEffect(() => {
+    const el = document.querySelector(".overflow-y-auto") as HTMLElement | null;
+    if (el) {
+      el.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [page]);
+
   return (
     <>
-      <div className="px-4 pl-6 h-14 flex justify-between items-center mt-1.5 mb-2">
-        <h3 className="text-lg font-bold">Logi administratora</h3>
+      <div className="px-4 md:pl-6 md:h-14 flex justify-between items-center mt-1.5 mb-4 md:mb-2 flex-wrap gap-4">
+        <div className="flex gap-2 items-center mt-2 md:mt-0">
+          <SidebarTrigger className="md:hidden" />
+          <KeyRound className="hidden md:block" />
+          <h3 className="text-lg font-bold">Logi administratora</h3>
+        </div>
       </div>
       <div className="px-4 flex-1 h-0 overflow-y-auto">
         {isLoading && <div className="w-full bg-card rounded-md border grid place-items-center p-4">Ładowanie...</div>}

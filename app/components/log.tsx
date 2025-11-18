@@ -1,3 +1,5 @@
+import { Link } from "lucide-react";
+
 function formatDate(iso?: string | null) {
   if (!iso) return "—";
   const d = new Date(iso);
@@ -27,20 +29,22 @@ export default function LogComponent({ log, withName = true }: { log: any; withN
   return (
     <div className="p-3 border flex flex-col gap-2 rounded-md bg-card">
       <div className="flex items-center justify-between px-1">
-        <div className="font-semibold text-sm">{withName && (name.trim() || "")}</div>
+        <Link to={`/students/${log.student_id}`} className="font-semibold text-sm">
+          {withName && (name.trim() || "")}
+        </Link>
         <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <div>Duration: {duration ?? "—"}</div>
+          <div>Czas trwania: {duration ?? "—"}</div>
           <div>{log.timestamp ? formatDate(log.timestamp) : ""}</div>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-2 text-sm">
         <div className="p-2 bg-background rounded">
-          <div className="text-xs text-muted-foreground">Exit</div>
+          <div className="text-xs text-muted-foreground">Wyjście</div>
           <div className="font-mono text-sm">{formatDate(exitIso)}</div>
         </div>
         <div className="p-2 bg-background rounded">
-          <div className="text-xs text-muted-foreground">Entry</div>
+          <div className="text-xs text-muted-foreground">Powrót</div>
           <div className="font-mono text-sm">{formatDate(entryIso)}</div>
         </div>
       </div>
