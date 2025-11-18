@@ -1,4 +1,4 @@
-import { Link } from "lucide-react";
+import { Link } from "react-router";
 
 function formatDate(iso?: string | null) {
   if (!iso) return "—";
