@@ -22,6 +22,7 @@ import {
 function StudentLogs({ studentId }: { studentId: string }) {
   const [page, setPage] = useState(1);
   const { isLoading, data, error } = useStudentLogs(studentId, { page });
+  const pages = useMemo(() => (data ? Math.ceil(data.total / data.limit) : 0), [data]);
   const logs = useMemo(() => data?.items ?? [], [data]);
 
   return (
@@ -44,7 +45,7 @@ function StudentLogs({ studentId }: { studentId: string }) {
               <div className="w-full bg-card rounded-md border grid place-items-center p-4">No logs available.</div>
             )}
           </div>
-          {data?.total > 1 && (
+          {pages > 1 && (
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
@@ -53,7 +54,7 @@ function StudentLogs({ studentId }: { studentId: string }) {
                     className={page === 1 ? "opacity-50 cursor-not-allowed" : ""}
                   />
                 </PaginationItem>
-                {Array.from({ length: data?.total ?? 0 }, (_, i) => i + 1).map((p) => (
+                {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
                   <PaginationItem key={p}>
                     <PaginationLink href="#" isActive={p === page} onClick={() => setPage(p)}>
                       {p}
@@ -62,8 +63,8 @@ function StudentLogs({ studentId }: { studentId: string }) {
                 ))}
                 <PaginationItem>
                   <PaginationNext
-                    onClick={() => setPage((c) => Math.min(data?.total ?? c, c + 1))}
-                    className={page === data?.total ? "opacity-50 cursor-not-allowed" : ""}
+                    onClick={() => setPage((c) => Math.min(pages, c + 1))}
+                    className={page === pages ? "opacity-50 cursor-not-allowed" : ""}
                   />
                 </PaginationItem>
               </PaginationContent>
