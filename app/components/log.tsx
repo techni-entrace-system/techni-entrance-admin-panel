@@ -22,7 +22,7 @@ export default function LogComponent({ log, withName = true }: { log: any; withN
   const exitIso = log.exit_time ?? log.exitTime ?? null;
   const entryDate = entryIso ? new Date(entryIso) : null;
   const exitDate = exitIso ? new Date(exitIso) : null;
-  const duration = entryDate && exitDate ? formatDuration(exitDate.getTime() - entryDate.getTime()) : null;
+  const duration = entryDate && exitDate ? formatDuration(entryDate.getTime() - exitDate.getTime()) : null;
 
   return (
     <div className="p-3 border flex flex-col gap-2 rounded-md bg-card">
