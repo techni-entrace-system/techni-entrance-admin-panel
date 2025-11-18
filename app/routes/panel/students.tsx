@@ -21,6 +21,7 @@ export default function StudentsPage() {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState(query);
   const { isLoading, data, error } = useStudents({ page, query: debouncedQuery });
+  const pages = useMemo(() => (data ? data.total / data.limit : 0), [data]);
   const students = useMemo(() => data?.items ?? [], [data]);
 
   useEffect(() => {
@@ -59,7 +60,8 @@ export default function StudentsPage() {
 
         {!isLoading && !error && (
           <>
-            <div className="grid gap-2 lg:grid-cols-2 xl:grid-cols-3 flex-1">
+            {/* <div className="grid gap-2 lg:grid-cols-2 xl:grid-cols-3 flex-1 auto-rows-min"> */}
+            <div className="grid gap-2 flex-1">
               {students.length > 0 ? (
                 students.map((s: any, i: number) => <StudentComponent key={i} student={s} />)
               ) : (
@@ -68,7 +70,7 @@ export default function StudentsPage() {
                 </div>
               )}
             </div>
-            {data?.total > 1 && (
+            {pages > 1 && (
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
@@ -77,7 +79,7 @@ export default function StudentsPage() {
                       className={page === 1 ? "opacity-50 cursor-not-allowed" : ""}
                     />
                   </PaginationItem>
-                  {Array.from({ length: data?.total ?? 0 }, (_, i) => i + 1).map((p) => (
+                  {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
                     <PaginationItem key={p}>
                       <PaginationLink href="#" isActive={p === page} onClick={() => setPage(p)}>
                         {p}
@@ -86,8 +88,8 @@ export default function StudentsPage() {
                   ))}
                   <PaginationItem>
                     <PaginationNext
-                      onClick={() => setPage((c) => Math.min(data?.total ?? c, c + 1))}
-                      className={page === data?.total ? "opacity-50 cursor-not-allowed" : ""}
+                      onClick={() => setPage((c) => Math.min(pages, c + 1))}
+                      className={page === pages ? "opacity-50 cursor-not-allowed" : ""}
                     />
                   </PaginationItem>
                 </PaginationContent>

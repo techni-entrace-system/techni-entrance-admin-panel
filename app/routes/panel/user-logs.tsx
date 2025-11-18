@@ -19,6 +19,7 @@ import UserLogComponent from "~/components/user-log";
 export default function UserLogsPage() {
   const [page, setPage] = useState(1);
   const { isLoading, data, error } = useUserLogs({ page });
+  const pages = useMemo(() => (data ? data.total / data.limit : 0), [data]);
   const logs = useMemo(() => data?.items ?? [], [data]);
 
   return (
@@ -45,7 +46,7 @@ export default function UserLogsPage() {
                 <div className="w-full bg-card rounded-md border grid place-items-center p-4">No logs available.</div>
               )}
             </div>
-            {data?.total > 1 && (
+            {pages > 1 && (
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
@@ -54,7 +55,7 @@ export default function UserLogsPage() {
                       className={page === 1 ? "opacity-50 cursor-not-allowed" : ""}
                     />
                   </PaginationItem>
-                  {Array.from({ length: data?.total ?? 0 }, (_, i) => i + 1).map((p) => (
+                  {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
                     <PaginationItem key={p}>
                       <PaginationLink href="#" isActive={p === page} onClick={() => setPage(p)}>
                         {p}
@@ -63,8 +64,8 @@ export default function UserLogsPage() {
                   ))}
                   <PaginationItem>
                     <PaginationNext
-                      onClick={() => setPage((c) => Math.min(data?.total ?? c, c + 1))}
-                      className={page === data?.total ? "opacity-50 cursor-not-allowed" : ""}
+                      onClick={() => setPage((c) => Math.min(pages, c + 1))}
+                      className={page === pages ? "opacity-50 cursor-not-allowed" : ""}
                     />
                   </PaginationItem>
                 </PaginationContent>
