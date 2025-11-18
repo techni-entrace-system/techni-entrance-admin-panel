@@ -21,7 +21,7 @@ export default function StudentsPage() {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState(query);
   const { isLoading, data, error } = useStudents({ page, query: debouncedQuery });
-  const pages = useMemo(() => (data ? data.total / data.limit : 0), [data]);
+  const pages = useMemo(() => (data ? Math.ceil(data.total / data.limit) : 0), [data]);
   const students = useMemo(() => data?.items ?? [], [data]);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export default function StudentsPage() {
         {!isLoading && !error && (
           <>
             {/* <div className="grid gap-2 lg:grid-cols-2 xl:grid-cols-3 flex-1 auto-rows-min"> */}
-            <div className="grid gap-2 flex-1">
+            <div className="grid gap-2 flex-1 auto-rows-min">
               {students.length > 0 ? (
                 students.map((s: any, i: number) => <StudentComponent key={i} student={s} />)
               ) : (

@@ -19,7 +19,7 @@ import UserLogComponent from "~/components/user-log";
 export default function UserLogsPage() {
   const [page, setPage] = useState(1);
   const { isLoading, data, error } = useUserLogs({ page });
-  const pages = useMemo(() => (data ? data.total / data.limit : 0), [data]);
+  const pages = useMemo(() => (data ? Math.ceil(data.total / data.limit) : 0), [data]);
   const logs = useMemo(() => data?.items ?? [], [data]);
 
   return (
