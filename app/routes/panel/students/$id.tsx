@@ -25,7 +25,7 @@ function StudentLogs({ studentId }: { studentId: string }) {
   const logs = useMemo(() => data?.items ?? [], [data]);
 
   return (
-    <div className="px-4 flex-1 h-0 overflow-y-auto">
+    <div className="px-4 flex-1 h-0 overflow-y-auto pb-8 flex flex-col space-y-4">
       {isLoading && <div className="w-full bg-card rounded-md border grid place-items-center p-4">Loading...</div>}
 
       {!!error && (
@@ -37,7 +37,7 @@ function StudentLogs({ studentId }: { studentId: string }) {
 
       {!isLoading && !error && (
         <>
-          <div className="grid gap-2 flex-1">
+          <div className="grid gap-2 flex-1 auto-rows-min">
             {logs && logs.length > 0 ? (
               logs.map((l: any, i: number) => <LogComponent key={i} log={l} withName={false} />)
             ) : (
