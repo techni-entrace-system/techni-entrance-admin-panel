@@ -1,4 +1,7 @@
 import { Link } from "react-router";
+import { Button } from "./ui/button";
+import { Image, PictureInPicture } from "lucide-react";
+import LogPhoto from "./log-photo";
 
 function formatDate(iso?: string | null) {
   if (!iso) return "—";
@@ -32,9 +35,16 @@ export default function LogComponent({ log, withName = true }: { log: any; withN
         <Link to={`/students/${log.student_id}`} className="font-semibold text-sm">
           {withName && (name.trim() || "")}
         </Link>
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <div>Czas trwania: {duration ?? "—"}</div>
-          <div>{log.timestamp ? formatDate(log.timestamp) : ""}</div>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <div>Czas trwania: {duration ?? "—"}</div>
+            <div>{log.timestamp ? formatDate(log.timestamp) : ""}</div>
+          </div>
+          <LogPhoto logId={log.log_id} photoType="exit">
+            <Button size="icon-sm" variant="outline">
+              <Image />
+            </Button>
+          </LogPhoto>
         </div>
       </div>
 

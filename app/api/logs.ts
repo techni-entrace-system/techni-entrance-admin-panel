@@ -24,3 +24,16 @@ export const useStudentLogs = (studentId: string, options: { page?: number; page
     queryFn: () => fetchStudentLogs(studentId, options.page, options.pageSize),
   });
 };
+
+export const useLogPhoto = (logId: string, photoType: "entry" | "exit", enabled: boolean = false) => {
+  const fetchLogPhoto = async (logId: string, photoType: "entry" | "exit") =>
+    fetch(`${import.meta.env.VITE_API_URL || "/api"}/logs/${logId}/photo?photo_type=${photoType}`, {
+      credentials: "include",
+    }).then((res) => res.json());
+
+  return useQuery({
+    queryKey: ["logPhoto", logId, photoType],
+    queryFn: () => fetchLogPhoto(logId, photoType),
+    enabled: enabled,
+  });
+};
