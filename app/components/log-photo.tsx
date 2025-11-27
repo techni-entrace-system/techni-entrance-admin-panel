@@ -22,7 +22,7 @@ export default function LogPhoto({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[90vw] max-w-[90vw] max-h-screen">
+      <DialogContent className="sm:max-w-[90vw] max-w-[90vw] max-h-[90vh]">
         <DialogHeader>
           <DialogTitle>Zdjęcia</DialogTitle>
         </DialogHeader>
