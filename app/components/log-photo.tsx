@@ -22,7 +22,7 @@ export default function LogPhoto({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[90vw] max-w-[90vw] max-h-[90vh]">
+      <DialogContent className="sm:max-w-[90vw] max-w-[90vw] max-h-[90vh] w-fit">
         <DialogHeader>
           <DialogTitle>Zdjęcia</DialogTitle>
         </DialogHeader>
@@ -37,7 +37,7 @@ export default function LogPhoto({
             <Spinner className="size-12" />
           </div>
         )}
-        {data && <img src={data.url} alt="Log Photo" className="w-full max-h-screen aspect-video" />}
+        {data && <img src={data.url} alt="Log Photo" />}
       </DialogContent>
     </Dialog>
   );
