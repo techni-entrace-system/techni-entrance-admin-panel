@@ -30,7 +30,7 @@ export default function LogComponent({ log, withName = true }: { log: any; withN
   const duration = entryDate && exitDate ? formatDuration(entryDate.getTime() - exitDate.getTime()) : null;
 
   return (
-    <div className="p-3 border flex flex-col gap-2 rounded-md bg-card">
+    <div className={`p-3 border flex flex-col gap-2 rounded-md bg-card ${!entryIso ? "border-red-500" : ""}`}>
       <div className="flex items-center justify-between px-1">
         <Link to={`/students/${log.student_id}`} className="font-semibold text-sm">
           {withName && (name.trim() || "")}
